@@ -6,6 +6,7 @@ export default (() => {
     return myFunctions[currentCalculator](resultArray)
   }
 
+  // Return calculated array values
   const myFunctions = {
     A: (input) => {
       return input[0] * input[1] * input[2];

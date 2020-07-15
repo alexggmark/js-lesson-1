@@ -5,7 +5,6 @@ import {
 } from './templates';
 import Calculations from './calculations';
 import Interface from './interface';
-import _interface from './interface';
 
 const selectors = {
   app: '#app',
@@ -18,8 +17,10 @@ export default ((inputs) => {
     output: document.querySelector(selectors.output)
   }
 
+  // Store currently selected calculator value
   let currentCalculator = null;
 
+  // Calculate results and render in output div
   function calculateCurrent() {
     if (!currentCalculator) { return; }
 
@@ -27,10 +28,11 @@ export default ((inputs) => {
     renderOutput(result);
   }
 
-  function renderInputs(data, store) {
-    currentCalculator = data;
+  // Import calculator inputs based on radio 'selected'
+  function renderInputs(selected, store) {
+    currentCalculator = selected;
     let calcImport;
-    switch(data) {
+    switch(selected) {
       case 'A':
         calcImport = calculatorA;
         break;

@@ -9,6 +9,7 @@ const selectors = {
 }
 
 export default (() => {
+  // Store for input values when calculator re-rendered
   let inputStore = [];
 
   const nodeSelectors = {
@@ -16,23 +17,24 @@ export default (() => {
     calculateButton: document.querySelector(`#${selectors.calculateButton}`)
   }
 
+  // Reset input store
   function resetInputStore() {
     inputStore = [];
   }
 
-  function updateCalculatorSelection(value) {
-    inputValuesToStore();
-    console.log(`Inputs`)
-    console.log(inputStore);
-    Render.renderInputs(value, inputStore);
-  }
-
+  // Send input values to inputStore
   function inputValuesToStore() {
     const input1 = document.querySelector(selectors.input1).value;
     const input2 = document.querySelector(selectors.input2).value;
     const input3 = document.querySelector(selectors.input3).value;
 
     inputStore.push(input1, input2, input3);
+  }
+
+  // Re-render calculator inputs and store previous values
+  function updateCalculatorSelection(value) {
+    inputValuesToStore();
+    Render.renderInputs(value, inputStore);
   }
 
   function setEventListeners() {
@@ -48,6 +50,7 @@ export default (() => {
     })
   }
 
+  // Return calculator input values
   function getCalculatorInputValues() {
     const input1 = document.querySelector(selectors.input1).value;
     const input2 = document.querySelector(selectors.input2).value;
