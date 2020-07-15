@@ -4,14 +4,18 @@ import {
   calculatorC
 } from './templates';
 import Calculations from './calculations';
+import Interface from './interface';
+import _interface from './interface';
 
 const selectors = {
-  app: '#app'
+  app: '#app',
+  output: '#output'
 }
 
 export default ((inputs) => {
   const nodeSelectors = {
     app: document.querySelector(selectors.app),
+    output: document.querySelector(selectors.output)
   }
 
   let currentCalculator = null;
@@ -19,10 +23,11 @@ export default ((inputs) => {
   function calculateCurrent() {
     if (!currentCalculator) { return; }
 
-    Calculations.calculate(currentCalculator);
+    const result = Calculations.calculate(currentCalculator);
+    renderOutput(result);
   }
 
-  function renderInputs(data) {
+  function renderInputs(data, store) {
     currentCalculator = data;
     let calcImport;
     switch(data) {
@@ -36,12 +41,25 @@ export default ((inputs) => {
         calcImport = calculatorC;
         break;
     }
-    loadInputs(calcImport);
+    loadInputs(calcImport, store);
   }
 
-  function loadInputs(input) {
-    console.log(input.toString())
+  function renderOutput(result) {
+    nodeSelectors.output.innerHTML = result;
+  }
+
+  function loadInputs(input, store) {
     nodeSelectors.app.innerHTML = input;
+
+    if (!store) {
+      return;
+    }
+
+    nodeSelectors.app.querySelectorAll('input').forEach((input, index) => {
+      input.value = store[index];
+    })
+
+    Interface.resetInputStore();
   }
 
   function init() {
